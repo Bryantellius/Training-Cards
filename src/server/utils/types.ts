@@ -22,3 +22,9 @@ export interface IShoe {
   purpose?: string;
   image?: string;
 }
+
+export interface IPayload {
+  [key: string]: any;
+  userid: number;
+  unique?: string;
+}

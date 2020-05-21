@@ -6,6 +6,9 @@ import * as compression from "compression";
 import * as morgan from "morgan";
 import config from "./config/index";
 import { Error } from "./utils/types";
+import * as passport from "passport";
+import "./middleware/bearerstrategy";
+import "./middleware/localstrategy";
 
 const app = express();
 
@@ -13,6 +16,7 @@ app.use(helmet());
 app.use(compression());
 
 app.use(express.static("public"));
+app.use(passport.initialize());
 app.use(express.json());
 
 app.use(morgan("dev"));
