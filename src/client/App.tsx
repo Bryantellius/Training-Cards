@@ -1,36 +1,17 @@
-import * as React from 'react';
+import * as React from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Home from "./views/Home";
 
-class App extends React.Component<IAppProps, IAppState> {
-	constructor(props: IAppProps) {
-		super(props);
-		this.state = {
-			name: null
-		};
-	}
-
-	async componentDidMount() {
-		try {
-			let r = await fetch('/api/shoes');
-			let name = await r.json();
-			this.setState({ name });
-		} catch (error) {
-			console.log(error);
-		}
-	}
-
-	render() {
-		return (
-			<main className="container my-5">
-				<h1 className="text-primary text-center">Hello {this.state.name}!</h1>
-			</main>
-		);
-	}
-}
+const App: React.FC<IAppProps> = () => {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={Home} />
+      </Switch>
+    </BrowserRouter>
+  );
+};
 
 export interface IAppProps {}
-
-export interface IAppState {
-	name: string;
-}
 
 export default App;
