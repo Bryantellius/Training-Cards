@@ -15,26 +15,29 @@ const Home: React.FC<IHomeProps> = () => {
     })();
   }, []);
 
-  const slide = () => {
-    if (num === shoes.length - 1) {
+  const slide = (index?: any) => {
+    if (index) {
+      setNum(index);
+      setCurrentShoe(shoes[index.toString()]);
+    } else if (num === shoes.length - 1) {
       setNum(0);
       setCurrentShoe(shoes[0]);
     } else {
       setNum(num + 1);
-      setCurrentShoe(shoes[num+1]);
+      setCurrentShoe(shoes[num + 1]);
     }
   };
 
   return (
     <main className="container my-5">
-      <h1 className="text-primary text-center">Home</h1>
       <div className="row">
         <div className="col-sm-4">
           <ul className="list-group">
-            {shoes.map((shoe) => (
+            {shoes.map((shoe, index) => (
               <li
                 className="list-group-item"
                 key={`${shoe.id}-${shoe.model_name}`}
+                onClick={() => slide(index)}
               >
                 {shoe.brand_name} {shoe.model_name}
               </li>
@@ -57,7 +60,7 @@ const Home: React.FC<IHomeProps> = () => {
               </div>
             </div>
             <div className="card-footer">
-              <button onClick={slide}>Next</button>
+              <button onClick={() => slide()}>Next</button>
             </div>
           </div>
         </div>
