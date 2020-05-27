@@ -6,17 +6,34 @@ const Home: React.FC<IHomeProps> = () => {
   const [shoes, setShoes] = React.useState<Shoes[]>([]);
   const [query, setQuery] = React.useState<string>("");
 
-  const displayShoes = async () => {
+  const displayShoes = async (filter?: string) => {
     let shoes = await apiService("/api/shoes");
-    if (query !== "") {
+    if (filter) {
       let filteredShoes = shoes.filter(
-        (shoe: Shoes) =>
-          shoe.model_name.indexOf(query) !== -1 ||
-          shoe.brand_name.indexOf(query) !== -1
+        (shoe: Shoes) => shoe.type == filter || shoe.purpose == filter
       );
       setShoes(filteredShoes);
+    } else if (query !== "") {
+      let searchedShoes = shoes.filter(
+        (shoe: Shoes) =>
+          shoe.brand_name.indexOf(query) !== -1 ||
+          shoe.model_name.indexOf(query) !== -1
+      );
+      setShoes(searchedShoes);
     } else {
       setShoes(shoes);
+    }
+  };
+
+  const toggleActive = (divId: string) => {
+    let target = document.getElementById(divId);
+    if (target.classList.contains("active")) {
+      target.classList.toggle("active");
+      displayShoes(undefined);
+    } else {
+      let filter = target.innerHTML;
+      displayShoes(filter);
+      target.classList.toggle("active");
     }
   };
 
@@ -48,16 +65,64 @@ const Home: React.FC<IHomeProps> = () => {
           </div>
           <hr />
           <div className="btn-group mb-3 d-flex" role="group">
-            <button className="btn btn-outline-dark">Neutral</button>
-            <button className="btn btn-outline-dark">Support</button>
+            <button
+              id="neutralBtn"
+              className="btn btn-outline-dark"
+              onClick={() => toggleActive("neutralBtn")}
+            >
+              Neutral
+            </button>
+            <button
+              id="supportBtn"
+              className="btn btn-outline-dark"
+              onClick={() => toggleActive("supportBtn")}
+            >
+              Support
+            </button>
           </div>
           <div className="btn-group mb-3 d-flex" role="group">
-            <button className="btn btn-outline-dark">Road</button>
-            <button className="btn btn-outline-dark">Trail</button>
+            <button
+              id="roadBtn"
+              className="btn btn-outline-dark"
+              onClick={() => toggleActive("roadBtn")}
+            >
+              Road
+            </button>
+            <button
+              id="trailBtn"
+              className="btn btn-outline-dark"
+              onClick={() => toggleActive("trailBtn")}
+            >
+              Trail
+            </button>
           </div>
           <div className="btn-group mb-3 d-flex" role="group">
-            <button className="btn btn-outline-dark">Men's</button>
-            <button className="btn btn-outline-dark">Women's</button>
+            <button
+              id="mensBtn"
+              className="btn btn-outline-dark"
+              onClick={() => toggleActive("mensBtn")}
+            >
+              Men's
+            </button>
+            <button
+              id="womensBtn"
+              className="btn btn-outline-dark"
+              onClick={() => toggleActive("womensBtn")}
+            >
+              Women's
+            </button>
+          </div>
+          <div className="input-group">
+            <label htmlFor="inputRange">Price Range</label>
+            <input
+              type="range"
+              className="custom-range"
+              id="inputRange"
+            />
+          </div>
+          <hr />
+          <div className="btn-group mb-3 d-flex" role="group">
+            <button className="btn btn-success">Sale Items</button>
           </div>
         </div>
         <div className="col-sm-8">
