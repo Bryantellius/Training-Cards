@@ -10,7 +10,7 @@ const Home: React.FC<IHomeProps> = () => {
     let shoes = await apiService("/api/shoes");
     if (filter) {
       let filteredShoes = shoes.filter(
-        (shoe: Shoes) => shoe.type == filter || shoe.purpose == filter
+        (shoe: Shoes) => shoe.type == filter || shoe.purpose == filter || shoe.markdown
       );
       setShoes(filteredShoes);
     } else if (query !== "") {
@@ -34,6 +34,19 @@ const Home: React.FC<IHomeProps> = () => {
       let filter = target.innerHTML;
       displayShoes(filter);
       target.classList.toggle("active");
+    }
+  };
+
+  const hasMarkdown = (shoe: any) => {
+    if (shoe.markdown) {
+      return (
+        <span className="d-block">
+          <s>${shoe.price}</s>{" "}
+          <span className="text-danger">${shoe.markdown}</span>
+        </span>
+      );
+    } else {
+      return <span className="d-block">${shoe.price}</span>;
     }
   };
 
@@ -96,43 +109,26 @@ const Home: React.FC<IHomeProps> = () => {
               Trail
             </button>
           </div>
-          <div className="btn-group mb-3 d-flex" role="group">
-            <button
-              id="mensBtn"
-              className="btn btn-outline-dark"
-              onClick={() => toggleActive("mensBtn")}
-            >
-              Men's
-            </button>
-            <button
-              id="womensBtn"
-              className="btn btn-outline-dark"
-              onClick={() => toggleActive("womensBtn")}
-            >
-              Women's
-            </button>
-          </div>
-          <div className="input-group">
-            <label htmlFor="inputRange">Price Range</label>
-            <input
-              type="range"
-              className="custom-range"
-              id="inputRange"
-            />
-          </div>
           <hr />
           <div className="btn-group mb-3 d-flex" role="group">
-            <button className="btn btn-success">Sale Items</button>
+            <button className="btn btn-success"
+            onClick={() => displayShoes("true")}
+            >Sale Items</button>
           </div>
         </div>
-        <div className="col-sm-8">
+        <div id="shoeDiv" className="col-sm-8">
           <div className="row row-cols-1 row-cols-md-2">
             {shoes.map((shoe) => (
               <div className="col mb-3" key={`${shoe.id}-${shoe.model_name}`}>
                 <div className="card">
                   <div className="card-img">
-                    <img src="" alt="Image of Shoe" />
+                    <img
+                      className="shoeIMG"
+                      src={shoe.imageURL}
+                      alt="Image of Shoe"
+                    />
                   </div>
+                  <hr/>
                   <div className="card-body">
                     <div className="card-text">
                       <h5>
@@ -140,7 +136,7 @@ const Home: React.FC<IHomeProps> = () => {
                       </h5>
                       <span className="d-block">{shoe.type}</span>
                       <span className="d-block">{shoe.purpose} Running</span>
-                      <span className="d-block">${shoe.price}</span>
+                      {hasMarkdown(shoe)}
                     </div>
                   </div>
                   <div className="card-footer">

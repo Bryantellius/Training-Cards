@@ -2,4 +2,18 @@ $theme-colors: (
     'primary': #0091ea //Covalence Blue!  :D
 );
 
+.shoeIMG {
+    height: auto;
+    max-height: 100%;
+    width: auto;
+    max-width: 100%;
+}
+
+.card-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 250px;
+}
+
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';
