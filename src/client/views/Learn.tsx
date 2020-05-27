@@ -2,7 +2,7 @@ import * as React from "react";
 import { Shoes } from "../utils/Types";
 import { apiService } from "../utils/apiService";
 
-const Shop: React.FC<IShopProps> = () => {
+const Learn: React.FC<ILearnProps> = () => {
   const [shoes, setShoes] = React.useState<Shoes[]>([]);
   const [query, setQuery] = React.useState<string>("");
 
@@ -10,7 +10,8 @@ const Shop: React.FC<IShopProps> = () => {
     let shoes = await apiService("/api/shoes");
     if (filter) {
       let filteredShoes = shoes.filter(
-        (shoe: Shoes) => shoe.type == filter || shoe.purpose == filter || shoe.markdown
+        (shoe: Shoes) =>
+          shoe.type == filter || shoe.purpose == filter || shoe.markdown
       );
       setShoes(filteredShoes);
     } else if (query !== "") {
@@ -111,9 +112,12 @@ const Shop: React.FC<IShopProps> = () => {
           </div>
           <hr />
           <div className="btn-group mb-3 d-flex" role="group">
-            <button className="btn btn-success"
-            onClick={() => displayShoes("true")}
-            >Sale Items</button>
+            <button
+              className="btn btn-success"
+              onClick={() => displayShoes("true")}
+            >
+              Sale Items
+            </button>
           </div>
         </div>
         <div id="shoeDiv" className="col-sm-8">
@@ -128,7 +132,7 @@ const Shop: React.FC<IShopProps> = () => {
                       alt="Image of Shoe"
                     />
                   </div>
-                  <hr/>
+                  <hr />
                   <div className="card-body">
                     <div className="card-text">
                       <h5>
@@ -157,6 +161,6 @@ const Shop: React.FC<IShopProps> = () => {
   );
 };
 
-export interface IShopProps {}
+export interface ILearnProps {}
 
-export default Shop;
+export default Learn;

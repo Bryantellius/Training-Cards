@@ -2,13 +2,17 @@ $theme-colors: (
   "primary": #0091ea //Covalence Blue!  :D,
 );
 
-#homePhotos {
-  height: 400px;
-  width: auto;
-  background-image: url("/assets/run-bham-logo.png"), url("/assets/coverphoto.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
+#home {
+  height: 100vh;
+}
+
+#messageDiv {
+  height: auto;
+  max-height: 100%;
+}
+
+.deleteX {
+  cursor: pointer;
 }
 
 .shoeIMG {

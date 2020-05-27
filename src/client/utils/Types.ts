@@ -8,3 +8,11 @@ export interface Shoes {
   purpose: string;
   imageURL: string;
 }
+
+export interface IMessage {
+  id: Number;
+  firstname: string;
+  lastname: string;
+  message: string;
+  time: Date;
+}

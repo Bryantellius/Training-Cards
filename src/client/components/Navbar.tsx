@@ -10,13 +10,17 @@ const Navbar: React.FC<INavbarProps> = () => {
           alt="Trak Shak Running Shops Logo"
         />
       </div>
-      <div id="siteNav" className="d-flex justify-content-center align-items-center bg-info">
+      <div
+        id="siteNav"
+        className="d-flex justify-content-center align-items-center bg-info"
+      >
         <ul className="nav">
           <li className="nav-item">
             <NavLink
               className="nav-link text-light"
               activeClassName="bg-light text-dark"
-              exact to="/"
+              exact
+              to="/"
             >
               Home
             </NavLink>
@@ -25,72 +29,10 @@ const Navbar: React.FC<INavbarProps> = () => {
             <NavLink
               activeClassName="bg-light text-dark"
               className="nav-link text-light"
-              exact to="/runs"
+              exact
+              to="/learn"
             >
-              Weekly Runs
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink
-              activeClassName="bg-light text-dark"
-              className="nav-link text-light"
-              exact to="/results"
-            >
-              Race Results
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink
-              activeClassName="bg-light text-dark"
-              className="nav-link text-light"
-              exact to="/races"
-            >
-              Upcoming Races
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink
-              activeClassName="bg-light text-dark"
-              className="nav-link text-light"
-              exact to="/services"
-            >
-              Services
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink
-              activeClassName="bg-light text-dark"
-              className="nav-link text-light"
-              exact to="/resources"
-            >
-              Running Resources
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink
-              activeClassName="bg-light text-dark"
-              className="nav-link text-light"
-              exact to="/contact"
-            >
-              Contact
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink
-              activeClassName="bg-light text-dark"
-              className="nav-link text-light"
-              exact to="/giftcards"
-            >
-              Gift Cards
-            </NavLink>
-          </li>
-          <li className="nav-item bg-success">
-            <NavLink
-              activeClassName="text-success"
-              className="nav-link text-light"
-              exact to="/shop"
-            >
-              Shop Online
+              Learn
             </NavLink>
           </li>
         </ul>

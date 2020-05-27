@@ -28,3 +28,10 @@ export interface IPayload {
   userid: number;
   unique?: string;
 }
+
+export interface IMessage {
+  id: Number;
+  userid: Number;
+  message: string;
+  _created: Date;
+}
