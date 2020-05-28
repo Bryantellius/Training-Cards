@@ -1,25 +1,12 @@
 import * as React from "react";
+import { useHistory } from "react-router-dom";
 import { apiService, User } from "../utils/apiService";
 import { IMessage } from "../utils/Types";
 import moment from "moment";
 
 const Home: React.FC<IHomeProps> = () => {
+  const history = useHistory();
   const [messages, setMessages] = React.useState<IMessage[]>([]);
-  const [input, setInput] = React.useState<string>(undefined);
-
-  const send = async () => {
-    let body = {
-      userid: 8,
-      message: input,
-    };
-    let result = apiService("/api/messages", "POST", body);
-    window.location.reload();
-  };
-
-  const deleteMessage = async (id: Number) => {
-    let result = await apiService(`/api/messages/${id}`, "DELETE");
-    window.location.reload();
-  };
 
   const displayMessages = async () => {
     let messages = await apiService("/api/messages");
@@ -27,7 +14,11 @@ const Home: React.FC<IHomeProps> = () => {
   };
 
   React.useEffect(() => {
-    displayMessages();
+    if (!User) {
+      history.push("/login");
+    } else {
+      displayMessages();
+    }
   }, []);
 
   return (
@@ -46,7 +37,6 @@ const Home: React.FC<IHomeProps> = () => {
                       <span>
                         {message.firstname} {message.lastname}
                       </span>
-                      <span className="deleteX" onClick={() => deleteMessage(message.id)}>X</span>
                     </h5>
                     <p>{message.message}</p>
                     <span className="text-muted d-block text-right">
@@ -56,22 +46,6 @@ const Home: React.FC<IHomeProps> = () => {
                 </div>
               );
             })}
-          </div>
-          <hr className="bg-light my-2" />
-          <div id="messageInput" className="input-group">
-            <textarea
-              className="form-control"
-              value={input}
-              placeholder="Message.."
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                setInput(e.target.value)
-              }
-            />
-            <div className="input-group-append">
-              <button className="btn btn-info" onClick={send}>
-                Send
-              </button>
-            </div>
           </div>
         </div>
         <div className="col-md-7 mb-3">

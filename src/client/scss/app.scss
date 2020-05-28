@@ -11,8 +11,13 @@ $theme-colors: (
   max-height: 100%;
 }
 
-.deleteX {
-  cursor: pointer;
+#loginNav {
+  height: 2rem;
+  width: 100%;
+}
+
+#successAlert {
+  display: none;
 }
 
 .shoeIMG {
