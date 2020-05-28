@@ -5,10 +5,14 @@ const AddEmployee: React.FC<IAddEmployeeProps> = () => {
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [role, setRole] = React.useState<string>("employee");
+  const [firstname, setFirstname] = React.useState<string>("");
+  const [lastname, setLastname] = React.useState<string>("");
 
   const register = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     let body = {
+      firstname,
+      lastname,
       email,
       password,
       role,
@@ -17,8 +21,7 @@ const AddEmployee: React.FC<IAddEmployeeProps> = () => {
       let res = await apiService("/auth/register", "POST", body);
       if (res) {
         document.getElementById("successAlert").style.display = "block";
-        setEmail("");
-        setPassword("");
+        window.location.reload();
       }
     } catch (err) {
       alert("An error occured while trying to register your employee.");
@@ -28,12 +31,12 @@ const AddEmployee: React.FC<IAddEmployeeProps> = () => {
 
   return (
     <main className="container my-3 d-flex flex-column justify-content-center align-items-center">
-      <div id="successAlert" className="alert alert-success col-md-6">
+      <div id="successAlert" className="alert alert-success col-md-12">
         Employee Added!
       </div>
-      <form className="form-group col-md-6 p-3">
+      <form className="form-group col-md-10 p-3">
         <div className="mb-3">
-          <label>Clearance:</label>
+          <label>Level:</label>
           <select
             id="employeeSelect"
             className="form-control"
@@ -44,6 +47,27 @@ const AddEmployee: React.FC<IAddEmployeeProps> = () => {
             <option value="employee">Employee</option>
             <option value="admin">Admin</option>
           </select>
+        </div>
+        <div className="mb-3">
+          <label>Name:</label>
+          <input
+            type="text"
+            className="form-control mb-2"
+            placeholder="Employee Firstname"
+            value={firstname}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setFirstname(e.target.value)
+            }
+          />
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Employee Lastname"
+            value={lastname}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setLastname(e.target.value)
+            }
+          />
         </div>
         <div className="mb-3">
           <label>Email:</label>

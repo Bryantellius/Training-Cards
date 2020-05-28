@@ -16,3 +16,11 @@ export interface IMessage {
   message: string;
   time: Date;
 }
+
+export interface IEmployee {
+  id: Number;
+  firstname: string;
+  lastname: string;
+  role: string;
+  _created: Date;
+}

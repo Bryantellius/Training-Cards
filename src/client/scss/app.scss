@@ -1,5 +1,5 @@
 $theme-colors: (
-  "primary": #0091ea //Covalence Blue!  :D,
+  "primary": #0091ea //Covalence Blue!  :D,,
 );
 
 #home {
@@ -18,6 +18,18 @@ $theme-colors: (
 
 #successAlert {
   display: none;
+}
+
+.hide {
+  display: none !important;
+}
+
+.feather-x {
+  cursor: pointer !important;
+}
+
+.active {
+  border-bottom: 2px solid black;
 }
 
 .shoeIMG {
