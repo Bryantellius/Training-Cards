@@ -185,15 +185,15 @@ const Learn: React.FC<ILearnProps> = () => {
                 <span id="shoePurpose">{currentShoe?.purpose} Running</span>
               </div>
             </div>
-            <div className="card-footer d-flex justify-content-around">
+            <div className="btn-group">
               <button
-                className="btn btn-sm btn-primary"
+                className="btn d-block btn-outline-info"
                 onClick={() => nextCard(-1)}
               >
                 Back
               </button>
               <button
-                className="btn btn-sm btn-primary"
+                className="btn d-block btn-outline-info"
                 onClick={() => nextCard(1)}
               >
                 Next

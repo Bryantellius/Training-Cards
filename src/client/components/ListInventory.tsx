@@ -4,10 +4,20 @@ import { Shoes } from "../utils/Types";
 
 const ListInventory: React.FC<IListInventoryProps> = () => {
   const [shoes, setShoes] = React.useState<Shoes[]>([]);
+  const [query, setQuery] = React.useState<string>("");
 
   const displayshoes = async () => {
     let shoes = await apiService("/api/shoes");
-    setShoes(shoes);
+    if (query !== "") {
+      let searchedShoes = shoes.filter(
+        (shoe: Shoes) =>
+          shoe.model_name.indexOf(query) !== -1 ||
+          shoe.brand_name.indexOf(query) !== -1
+      );
+      setShoes(searchedShoes);
+    } else {
+      setShoes(shoes);
+    }
   };
 
   const remove = async (id: Number) => {
@@ -17,11 +27,22 @@ const ListInventory: React.FC<IListInventoryProps> = () => {
 
   React.useEffect(() => {
     displayshoes();
-  }, []);
+  }, [query]);
 
   return (
     <main className="container my-3">
       <h5 className="text-center">Shoes</h5>
+      <div className="input-group mb-3">
+        <input
+          type="text"
+          className="form-control"
+          value={query}
+          placeholder="Search.."
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setQuery(e.target.value)
+          }
+        />
+      </div>
       <ul className="list-group-flush border-top">
         {shoes.map((shoe: Shoes) => {
           return (

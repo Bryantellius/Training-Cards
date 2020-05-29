@@ -1,9 +1,17 @@
 $theme-colors: (
-  "primary": #0091ea //Covalence Blue!  :D,,
+  "primary": #0091ea //Covalence Blue!  :D,,,,
 );
 
 #home {
   height: 100vh;
+}
+
+#messages,
+#inventory,
+#employees {
+  height: 100vh;
+  max-width: 100vw;
+  overflow-y: scroll;
 }
 
 #messageDiv {
@@ -56,7 +64,8 @@ $theme-colors: (
   font-weight: 300;
 }
 
-#shoeType, #shoePurpose {
+#shoeType,
+#shoePurpose {
   font-size: 1rem;
   font-weight: 600;
   font-style: italic;
