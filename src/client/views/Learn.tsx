@@ -1,19 +1,24 @@
 import * as React from "react";
 import { Shoes } from "../utils/Types";
-import { apiService } from "../utils/apiService";
+import { apiService, User } from "../utils/apiService";
+import { useHistory } from "react-router-dom";
 
 const Learn: React.FC<ILearnProps> = () => {
+  const history = useHistory();
+
   const [shoes, setShoes] = React.useState<Shoes[]>([]);
+  const [currentShoe, setCurrentShoe] = React.useState<Shoes>(undefined);
+  const [shoeIndex, setShoeIndex] = React.useState<number>(0);
   const [query, setQuery] = React.useState<string>("");
 
-  const displayShoes = async (filter?: string) => {
+  const loadShoes = async (filter?: string) => {
     let shoes = await apiService("/api/shoes");
-    if (filter) {
+    if (filter && filter !== "true") {
       let filteredShoes = shoes.filter(
-        (shoe: Shoes) =>
-          shoe.type == filter || shoe.purpose == filter || shoe.markdown
+        (shoe: Shoes) => shoe.type == filter || shoe.purpose == filter
       );
       setShoes(filteredShoes);
+      setCurrentShoe(filteredShoes[0]);
     } else if (query !== "") {
       let searchedShoes = shoes.filter(
         (shoe: Shoes) =>
@@ -21,45 +26,78 @@ const Learn: React.FC<ILearnProps> = () => {
           shoe.model_name.indexOf(query) !== -1
       );
       setShoes(searchedShoes);
+      setCurrentShoe(searchedShoes[0]);
+    } else if (filter === "true") {
+      let saleShoes = shoes.filter((shoe: Shoes) => shoe.markdown);
+      setShoes(saleShoes);
+      setCurrentShoe(saleShoes[0]);
     } else {
       setShoes(shoes);
+      setCurrentShoe(shoes[0]);
     }
   };
 
-  const toggleActive = (divId: string) => {
+  const toggleActive = (divId: string, show?: boolean) => {
     let target = document.getElementById(divId);
-    if (target.classList.contains("active")) {
-      target.classList.toggle("active");
-      displayShoes(undefined);
+    let cardFront = document.getElementById("cardFrontIMG");
+    let cardBack = document.getElementById("cardBackInfo");
+
+    if (show) {
+      if (cardFront === target) {
+        cardFront.classList.remove("hide");
+        cardBack.classList.add("hide");
+      } else {
+        cardFront.classList.add("hide");
+        cardBack.classList.remove("hide");
+      }
+      target.classList.remove("hide");
     } else {
-      let filter = target.innerHTML;
-      displayShoes(filter);
-      target.classList.toggle("active");
+      if (target.classList.contains("active")) {
+        target.classList.toggle("active");
+        loadShoes(undefined);
+      } else {
+        let filter = target.innerHTML;
+        loadShoes(filter);
+        target.classList.toggle("active");
+      }
     }
   };
 
-  const hasMarkdown = (shoe: any) => {
-    if (shoe.markdown) {
+  const nextCard = (direction: number) => {
+    if (shoeIndex >= shoes.length - 1) {
+      setCurrentShoe(shoes[0]);
+      setShoeIndex(0);
+    } else if (shoeIndex <= 0 && direction === -1) {
+      setCurrentShoe(shoes[shoes.length - 1]);
+      setShoeIndex(shoes.length - 1);
+    } else {
+      setCurrentShoe(shoes[shoeIndex + direction]);
+      setShoeIndex(shoeIndex + direction);
+    }
+  };
+
+  const hasMarkdown = () => {
+    if (currentShoe?.markdown) {
       return (
-        <span className="d-block">
-          <s>${shoe.price}</s>{" "}
-          <span className="text-danger">${shoe.markdown}</span>
+        <span id="shoePrice">
+          <s>${currentShoe?.price}</s>{" "}
+          <span className="text-danger">
+            <em>${currentShoe?.markdown}</em>
+          </span>
         </span>
       );
     } else {
-      return <span className="d-block">${shoe.price}</span>;
+      return <span id="shoePrice">${currentShoe?.price}</span>;
     }
   };
 
   React.useEffect(() => {
-    displayShoes();
+    if (User.userid === null) {
+      history.push("/login");
+    } else {
+      loadShoes();
+    }
   }, [query]);
-
-  const modalView = (shoeIndex?: any) => {
-    // let modal = document.getElementById("modalDiv");
-    // modal.style.display = "block";
-    alert("Display shoe info. TBC.");
-  };
 
   return (
     <main className="container my-5">
@@ -114,46 +152,53 @@ const Learn: React.FC<ILearnProps> = () => {
           <div className="btn-group mb-3 d-flex" role="group">
             <button
               className="btn btn-success"
-              onClick={() => displayShoes("true")}
+              onClick={() => loadShoes("true")}
             >
               Sale Items
             </button>
           </div>
         </div>
         <div id="shoeDiv" className="col-sm-8">
-          <div className="row row-cols-1 row-cols-md-2">
-            {shoes.map((shoe) => (
-              <div className="col mb-3" key={`${shoe.id}-${shoe.model_name}`}>
-                <div className="card">
-                  <div className="card-img">
-                    <img
-                      className="shoeIMG"
-                      src={shoe.imageURL}
-                      alt="Image of Shoe"
-                    />
-                  </div>
-                  <hr />
-                  <div className="card-body">
-                    <div className="card-text">
-                      <h5>
-                        {shoe.brand_name} {shoe.model_name}
-                      </h5>
-                      <span className="d-block">{shoe.type}</span>
-                      <span className="d-block">{shoe.purpose} Running</span>
-                      {hasMarkdown(shoe)}
-                    </div>
-                  </div>
-                  <div className="card-footer">
-                    <button
-                      className="btn btn-primary btn-sm"
-                      onClick={() => modalView()}
-                    >
-                      View
-                    </button>
-                  </div>
-                </div>
+          <div className="card">
+            <div
+              id="cardFrontIMG"
+              className="card-img"
+              onClick={() => toggleActive("cardBackInfo", true)}
+            >
+              <img
+                className="shoeIMG"
+                src={currentShoe?.imageURL}
+                alt="Shoe Card"
+              />
+            </div>
+            <div
+              id="cardBackInfo"
+              className="card-img hide"
+              onClick={() => toggleActive("cardFrontIMG", true)}
+            >
+              <div className="d-flex flex-column p-3 justify-content-around">
+                <span id="shoeName">
+                  {currentShoe?.brand_name} {currentShoe?.model_name}
+                </span>
+                {hasMarkdown()}
+                <span id="shoeType">{currentShoe?.type}</span>
+                <span id="shoePurpose">{currentShoe?.purpose} Running</span>
               </div>
-            ))}
+            </div>
+            <div className="card-footer d-flex justify-content-around">
+              <button
+                className="btn btn-sm btn-primary"
+                onClick={() => nextCard(-1)}
+              >
+                Back
+              </button>
+              <button
+                className="btn btn-sm btn-primary"
+                onClick={() => nextCard(1)}
+              >
+                Next
+              </button>
+            </div>
           </div>
         </div>
       </div>

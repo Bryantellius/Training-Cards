@@ -10,11 +10,11 @@ const Home: React.FC<IHomeProps> = () => {
 
   const displayMessages = async () => {
     let messages = await apiService("/api/messages");
-    setMessages(messages);
+    setMessages(messages.splice(0, 3).reverse());
   };
 
   React.useEffect(() => {
-    if (!User) {
+    if (User.userid === null) {
       history.push("/login");
     } else {
       displayMessages();

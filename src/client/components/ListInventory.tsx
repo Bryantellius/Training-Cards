@@ -22,7 +22,7 @@ const ListInventory: React.FC<IListInventoryProps> = () => {
   return (
     <main className="container my-3">
       <h5 className="text-center">Shoes</h5>
-      <ul className="list-group-flush">
+      <ul className="list-group-flush border-top">
         {shoes.map((shoe: Shoes) => {
           return (
             <li

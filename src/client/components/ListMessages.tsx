@@ -7,7 +7,7 @@ const ListMessages: React.FC<IListMessagesProps> = () => {
 
   const displayMessages = async () => {
     let messages = await apiService("/api/messages");
-    setMessages(messages);
+    setMessages(messages.splice(0, 3).reverse());
   };
 
   const remove = async (id: Number) => {
@@ -21,8 +21,8 @@ const ListMessages: React.FC<IListMessagesProps> = () => {
 
   return (
     <main className="container my-3">
-      <h5 className="text-center">Messages</h5>
-      <ul className="list-group-flush">
+      <h5 className="text-center">Displayed Messages</h5>
+      <ul className="list-group-flush border-top">
         {messages.map((message: IMessage) => {
           return (
             <li

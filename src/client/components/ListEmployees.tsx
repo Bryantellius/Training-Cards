@@ -22,7 +22,7 @@ const ListEmployees: React.FC<IListEmployeesProps> = () => {
   return (
     <main className="container my-3">
       <h5 className="text-center">Employees</h5>
-      <ul className="list-group-flush">
+      <ul className="list-group-flush border-top">
         {employees.map((employee: IEmployee) => {
           return (
             <li

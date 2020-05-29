@@ -40,3 +40,12 @@ export const setAccesstoken = (
   localStorage.setItem("userid", User.userid);
   localStorage.setItem("role", User.role);
 };
+
+export const removeAccesstoken = () => {
+  localStorage.clear();
+  Accesstoken = null;
+  User = {
+    userid: null,
+    role: null,
+  };
+};

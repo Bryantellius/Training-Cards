@@ -5,8 +5,11 @@ import AddMessage from "../components/AddMessage";
 import ListMessages from "../components/ListMessages";
 import AddInventory from "../components/AddInventory";
 import ListInventory from "../components/ListInventory";
+import { useHistory } from "react-router-dom";
+import { User } from "../utils/apiService";
 
 const Template: React.FC<ITemplateProps> = () => {
+  const history = useHistory();
   const toggle = (divId: string, headerId: string) => {
     let m = "messageTab",
       i = "inventoryTab",
@@ -26,6 +29,12 @@ const Template: React.FC<ITemplateProps> = () => {
     document.getElementById(divId).classList.remove("hide");
     document.getElementById(headerId).classList.add("active");
   };
+
+  React.useEffect(() => {
+    if (User.userid === null) {
+      history.push("/login");
+    }
+  }, [User]);
 
   return (
     <main className="container">
