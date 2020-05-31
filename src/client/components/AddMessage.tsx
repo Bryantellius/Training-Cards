@@ -15,7 +15,6 @@ const AddMessage: React.FC<IAddMessageProps> = () => {
       if (res) {
         document.getElementById("successAlert").style.display = "block";
         setText("");
-        window.location.reload();
       }
     } catch (err) {
       alert("An error occured while trying to add a message.");

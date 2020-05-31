@@ -6,32 +6,46 @@ const AddInventory: React.FC<IAddInventoryProps> = () => {
   const [brand_name, setBrand_name] = React.useState<string>("");
   const [type, setType] = React.useState<string>("Neutral");
   const [purpose, setPurpose] = React.useState<string>("Road");
-  const [price, setPrice] = React.useState<Number>(0);
+  const [price, setPrice] = React.useState<number>(0);
+  const [markdown, setMarkdown] = React.useState<number>(0);
 
   const add = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    let fileList: any = document.getElementById("fileInput");
+    let file = fileList.files;
     let body = {
       model_name,
       brand_name,
       type,
       purpose,
       price,
+      markdown: price * (markdown / 100),
+      imageURL: `/assets/${file[0].name}`,
     };
     try {
-      let res = await apiService("/api/shoes", "POST", body);
-      if (res) {
-        document.getElementById("successAlert").style.display = "block";
-        setModel_name("");
-        setBrand_name("");
-        setType("");
-        setPurpose("");
-        setPrice(0);
-        window.location.reload();
-      }
+      console.log(file[0]);
+      const formData = new FormData();
+      formData.append("file", file[0]);
+      let res = await apiService("/api/assets", "POST", formData);
     } catch (err) {
-      alert("An error occured while trying to add to inventory.");
       throw err;
     }
+    // try {
+    //   let res = await apiService("/api/shoes", "POST", body);
+    //   if (res) {
+    //     document.getElementById("successAlert").style.display = "block";
+    //     setModel_name("");
+    //     setBrand_name("");
+    //     setType("");
+    //     setPurpose("");
+    //     setPrice(0);
+    //     setMarkdown(0);
+    //     document.getElementById("fileLabel").innerHTML = "Choose File";
+    //   }
+    // } catch (err) {
+    //   alert("An error occured while trying to add to inventory.");
+    //   throw err;
+    // }
   };
 
   return (
@@ -74,38 +88,72 @@ const AddInventory: React.FC<IAddInventoryProps> = () => {
               type="number"
               className="form-control"
               placeholder="130.00"
-              value={brand_name}
+              value={price}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setPrice(Number(e.target.value))
               }
             />
+            <div className="input-group-append">
+              <span className="input-group-text">Markdown %</span>
+            </div>
+            <input
+              type="number"
+              className="form-control"
+              placeholder="25"
+              value={markdown}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setMarkdown(Number(e.target.value))
+              }
+            />
+          </div>
+        </div>
+        <div className="mb-3 row">
+          <div className="col-sm-6">
+            <label>Type:</label>
+            <select
+              id="typeSelect"
+              className="form-control"
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                setType(e.target.value)
+              }
+            >
+              <option value="Neutral">Neutral</option>
+              <option value="Support">Support</option>
+            </select>
+          </div>
+          <div className="col-sm-6">
+            <label>Purpose:</label>
+            <select
+              id="purposeSelect"
+              className="form-control"
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                setPurpose(e.target.value)
+              }
+            >
+              <option value="Road">Road</option>
+              <option value="Trail">Trail</option>
+            </select>
           </div>
         </div>
         <div className="mb-3">
-          <label>Type:</label>
-          <select
-            id="typeSelect"
-            className="form-control"
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              setType(e.target.value)
-            }
-          >
-            <option value="Neutral">Neutral</option>
-            <option value="Support">Support</option>
-          </select>
-        </div>
-        <div className="mb-3">
-          <label>Purpose:</label>
-          <select
-            id="purposeSelect"
-            className="form-control"
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              setPurpose(e.target.value)
-            }
-          >
-            <option value="Road">Road</option>
-            <option value="Trail">Trail</option>
-          </select>
+          <label>Image:</label>
+          <div className="custom-file">
+            <input
+              type="file"
+              name="file"
+              className="custom-file-input"
+              id="fileInput"
+              accept="image/*"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                document.getElementById(
+                  "fileLabel"
+                ).innerHTML = e.target.value.slice(12);
+              }}
+            />
+            <label id="fileLabel" className="custom-file-label">
+              Choose file
+            </label>
+          </div>
         </div>
         <button
           className="btn btn-info w-50 mx-auto d-block my-3"

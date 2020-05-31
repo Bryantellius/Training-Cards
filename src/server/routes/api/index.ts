@@ -1,6 +1,7 @@
 import * as express from "express";
 import shoeRouter from "./shoes";
 import messageRouter from "./messages";
+import assetRouter from "./assets";
 import * as passport from "passport";
 import db from "../../db";
 
@@ -15,6 +16,7 @@ router.use((req, res, next) => {
 
 router.use("/shoes", shoeRouter);
 router.use("/messages", messageRouter);
+router.use("/assets", assetRouter);
 
 router.get("/users", async (req, res, next) => {
   try {

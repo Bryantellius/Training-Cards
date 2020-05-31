@@ -21,7 +21,6 @@ const AddEmployee: React.FC<IAddEmployeeProps> = () => {
       let res = await apiService("/auth/register", "POST", body);
       if (res) {
         document.getElementById("successAlert").style.display = "block";
-        window.location.reload();
       }
     } catch (err) {
       alert("An error occured while trying to register your employee.");
