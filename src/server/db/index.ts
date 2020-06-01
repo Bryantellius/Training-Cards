@@ -8,6 +8,10 @@ import messages from "./queries/messages";
 
 export const Connection = mysql.createPool(config.mysql);
 
+if (!Connection) {
+  throw new Error("Can't Connect to DB!")
+}
+
 export const Query = (
   query: string,
   values?: Array<string | number | IUser | IShoe | IMessage>
