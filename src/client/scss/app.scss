@@ -1,5 +1,5 @@
 $theme-colors: (
-  "primary": #0091ea //Covalence Blue!  :D,,,,
+  "primary": #0091ea //Covalence Blue!  :D,,,,,,,,
 );
 
 #home {
@@ -24,7 +24,9 @@ $theme-colors: (
   width: 100%;
 }
 
-#messageAlert, #inventoryAlert, #employeeAlert {
+#messageAlert,
+#inventoryAlert,
+#employeeAlert {
   display: none;
 }
 
@@ -75,6 +77,25 @@ $theme-colors: (
   cursor: pointer;
   position: absolute;
   right: 20px;
+}
+
+#messageModal,
+#inventoryModal,
+#employeeModal {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  background-color: rgba($color: #000000, $alpha: 0.8);
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 2rem;
+  display: none;
+  overflow-y: scroll;
 }
 
 @import "../../../node_modules/bootstrap/scss/bootstrap.scss";
