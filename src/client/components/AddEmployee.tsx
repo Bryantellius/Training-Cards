@@ -10,6 +10,20 @@ const AddEmployee: React.FC<IAddEmployeeProps> = () => {
 
   const register = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    let alertDiv = document.getElementById("employeeAlert");
+    if (
+      email === "" ||
+      password === "" ||
+      role === "" ||
+      firstname === "" ||
+      lastname === ""
+    ) {
+      alertDiv.classList.remove("alert-success");
+      alertDiv.classList.add("alert-danger");
+      alertDiv.innerHTML = "All input fields must have values.";
+      alertDiv.style.display = "block";
+      return;
+    }
     let body = {
       firstname,
       lastname,
@@ -20,7 +34,10 @@ const AddEmployee: React.FC<IAddEmployeeProps> = () => {
     try {
       let res = await apiService("/auth/register", "POST", body);
       if (res) {
-        document.getElementById("successAlert").style.display = "block";
+        alertDiv.classList.remove("alert-danger");
+        alertDiv.classList.add("alert-success");
+        alertDiv.innerHTML = "Employee Added!";
+        alertDiv.style.display = "block";
       }
     } catch (err) {
       alert("An error occured while trying to register your employee.");
@@ -30,9 +47,7 @@ const AddEmployee: React.FC<IAddEmployeeProps> = () => {
 
   return (
     <main className="container my-3 d-flex flex-column justify-content-center align-items-center">
-      <div id="successAlert" className="alert alert-success col-md-12">
-        Employee Added!
-      </div>
+      <div id="employeeAlert" className="alert alert-success col-md-12"></div>
       <form className="form-group col-md-10 p-3">
         <div className="mb-3">
           <label>Level:</label>

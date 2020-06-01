@@ -6,6 +6,14 @@ const AddMessage: React.FC<IAddMessageProps> = () => {
 
   const send = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    let alertDiv = document.getElementById("messageAlert");
+    if (text === "") {
+      alertDiv.classList.remove("alert-success");
+      alertDiv.classList.add("alert-danger");
+      alertDiv.innerHTML = "All input fields must have values.";
+      alertDiv.style.display = "block";
+      return;
+    }
     let body = {
       userid: User.userid,
       message: text,
@@ -13,7 +21,10 @@ const AddMessage: React.FC<IAddMessageProps> = () => {
     try {
       let res = await apiService("/api/messages", "POST", body);
       if (res) {
-        document.getElementById("successAlert").style.display = "block";
+        alertDiv.classList.remove("alert-danger");
+        alertDiv.classList.add("alert-success");
+        alertDiv.innerHTML = "Message Added!";
+        alertDiv.style.display = "block";
         setText("");
       }
     } catch (err) {
@@ -24,9 +35,7 @@ const AddMessage: React.FC<IAddMessageProps> = () => {
 
   return (
     <main className="container my-3 d-flex flex-column justify-content-center align-items-center">
-      <div id="successAlert" className="alert alert-success col-md-12">
-        Message Added!
-      </div>
+      <div id="messageAlert" className="alert alert-success col-md-12"></div>
       <form className="form-group col-md-10 p-3">
         <div className="mb-3">
           <label>Message:</label>

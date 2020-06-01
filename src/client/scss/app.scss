@@ -24,7 +24,7 @@ $theme-colors: (
   width: 100%;
 }
 
-#successAlert {
+#messageAlert, #inventoryAlert, #employeeAlert {
   display: none;
 }
 

@@ -7,7 +7,7 @@ const ListMessages: React.FC<IListMessagesProps> = () => {
 
   const displayMessages = async () => {
     let messages = await apiService("/api/messages");
-    setMessages(messages.splice(0, 3).reverse());
+    setMessages(messages.splice(messages.length-3).reverse());
   };
 
   const remove = async (id: Number) => {

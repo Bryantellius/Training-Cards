@@ -12,6 +12,15 @@ const AddInventory: React.FC<IAddInventoryProps> = () => {
 
   const add = async (e: React.MouseEvent<HTMLInputElement>) => {
     e.preventDefault();
+    let alertDiv = document.getElementById("inventoryAlert");
+    if (model_name === "" || brand_name === "" || price === 0) {
+      alertDiv.classList.add("alert-danger");
+      alertDiv.classList.remove("alert-success");
+      alertDiv.innerHTML = "All input fields must have values.";
+      alertDiv.style.display = "block";
+      return;
+    }
+
     let form: any = document.querySelector("input[type=file]");
     let fileList = form.files;
     let body = {
@@ -40,7 +49,10 @@ const AddInventory: React.FC<IAddInventoryProps> = () => {
     try {
       let res = await apiService("/api/shoes", "POST", body);
       if (res) {
-        document.getElementById("successAlert").style.display = "block";
+        alertDiv.classList.add("alert-danger");
+        alertDiv.classList.remove("alert-success");
+        alertDiv.innerHTML = "Shoe Added!";
+        alertDiv.style.display = "block";
         setModel_name("");
         setBrand_name("");
         setType("");
@@ -57,9 +69,7 @@ const AddInventory: React.FC<IAddInventoryProps> = () => {
 
   return (
     <main className="container my-3 d-flex flex-column justify-content-center align-items-center">
-      <div id="successAlert" className="alert alert-success col-md-12">
-        Shoe Added!
-      </div>
+      <div id="inventoryAlert" className="alert alert-success col-md-12"></div>
       <form
         id="form"
         className="form-group col-md-10 p-3"
