@@ -8,7 +8,7 @@ export const CreateToken = async (payload: IPayload) => {
   let tokenid: any = await db.tokens.insertToken(payload.userid);
   payload.accesstokenid = tokenid.insertId;
   payload.unique = crypto.randomBytes(32).toString("hex");
-  let token = await jwt.sign(payload, config.auth.secret);
+  let token = await jwt.sign(payload, config.secret);
   await db.tokens.updateToken(payload.accesstokenid, token);
   return token;
 };
