@@ -8,10 +8,10 @@ if (!findEnv) {
 
 export default {
   mysql: {
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASS,
-    database: process.env.SCHEMA,
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_SCHEMA,
   },
   port: parseInt(process.env.PORT, 10),
   secret: process.env.SECRET,

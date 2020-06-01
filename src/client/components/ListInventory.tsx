@@ -225,14 +225,14 @@ const ListInventory: React.FC<IListInventoryProps> = () => {
         />
       </div>
       <ul className="list-group-flush border-top">
-        {shoes.map((shoe: Shoes) => {
+        {shoes?.map((shoe: Shoes) => {
           return (
             <li
               className="list-group-item d-flex justify-content-between"
-              key={`${shoe.id}-${shoe.model_name}-${shoe.brand_name}`}
+              key={`${shoe?.id}-${shoe?.model_name}-${shoe?.brand_name}`}
             >
-              <span onClick={() => focusModal(shoe)} className="feather-x">
-                {shoe.brand_name} {shoe.model_name}
+              <span onClick={() => focusModal(shoe?)} className="feather-x">
+                {shoe?.brand_name} {shoe?.model_name}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -245,7 +245,7 @@ const ListInventory: React.FC<IListInventoryProps> = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 className="feather feather-x text-danger"
-                onClick={() => remove(shoe.id)}
+                onClick={() => remove(shoe?.id)}
               >
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>

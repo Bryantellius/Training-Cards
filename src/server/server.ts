@@ -28,7 +28,6 @@ app.use(
     res: express.Response,
     next: express.NextFunction
   ) => {
-    console.log(err);
     res.status(err.status || 500);
     res.json({ errors: { err: err.message } });
   }

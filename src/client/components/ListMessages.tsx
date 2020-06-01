@@ -80,7 +80,9 @@ const ListMessages: React.FC<IListMessagesProps> = () => {
             </div>
             <button
               className="btn btn-info w-50 mx-auto d-block my-3"
-              onClick={(e: React.MouseEvent<HTMLButtonElement>) => update(e, editID)}
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                update(e, editID)
+              }
             >
               Edit
             </button>
@@ -110,15 +112,15 @@ const ListMessages: React.FC<IListMessagesProps> = () => {
       </button>
       <h5 className="text-center">Displayed Messages</h5>
       <ul className="list-group-flush border-top">
-        {messages.map((message: IMessage) => {
+        {messages?.map((message: IMessage) => {
           return (
             <li
               className="list-group-item"
-              key={`${message.id}-${message.lastname}`}
+              key={`${message?.id}-${message?.lastname}`}
             >
               <div className="d-flex justify-content-between">
                 <h5 onClick={() => focusModal(message)} className="feather-x">
-                  {message.firstname} {message.lastname}
+                  {message?.firstname} {message?.lastname}
                 </h5>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -131,13 +133,13 @@ const ListMessages: React.FC<IListMessagesProps> = () => {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   className="feather feather-x text-danger"
-                  onClick={() => remove(message.id)}
+                  onClick={() => remove(message?.id)}
                 >
                   <line x1="18" y1="6" x2="6" y2="18"></line>
                   <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
               </div>
-              <p>{message.message}</p>
+              <p>{message?.message}</p>
             </li>
           );
         })}

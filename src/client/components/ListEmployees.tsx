@@ -143,15 +143,15 @@ const ListEmployees: React.FC<IListEmployeesProps> = () => {
       </button>
       <h5 className="text-center">Employees</h5>
       <ul className="list-group-flush border-top">
-        {employees.map((employee: IEmployee) => {
+        {employees?.map((employee: IEmployee) => {
           return (
             <li
               className="list-group-item d-flex justify-content-between"
-              key={`${employee.id}-${employee.lastname}-${employee.role}`}
+              key={`${employee?.id}-${employee?.lastname}-${employee?.role}`}
               
             >
               <span onClick={() => focusModal(employee)} className="feather-x">
-                {employee.firstname} {employee.lastname}
+                {employee?.firstname} {employee?.lastname}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -164,7 +164,7 @@ const ListEmployees: React.FC<IListEmployeesProps> = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 className="feather feather-x text-danger"
-                onClick={() => remove(employee.id)}
+                onClick={() => remove(employee?.id)}
               >
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
