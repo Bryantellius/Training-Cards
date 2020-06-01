@@ -9,9 +9,10 @@ export let User: any = {
 export const apiService = async <T = any>(
   url: string,
   method: string = "GET",
-  body?: {}
+  body?: {},
 ) => {
-  const headers: any = { "Content-Type": "application/json" };
+  let headers: any = { "Content-Type": "application/json" };
+
   if (Accesstoken) {
     headers["Authorization"] = `Bearer ${Accesstoken}`;
   }

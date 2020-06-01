@@ -1,4 +1,5 @@
 import * as React from "react";
+import fetch from "isomorphic-fetch";
 import { apiService } from "../utils/apiService";
 
 const AddInventory: React.FC<IAddInventoryProps> = () => {
@@ -9,24 +10,29 @@ const AddInventory: React.FC<IAddInventoryProps> = () => {
   const [price, setPrice] = React.useState<number>(0);
   const [markdown, setMarkdown] = React.useState<number>(0);
 
-  const add = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const add = async (e: React.MouseEvent<HTMLInputElement>) => {
     e.preventDefault();
-    let fileList: any = document.getElementById("fileInput");
-    let file = fileList.files;
-    let body = {
-      model_name,
-      brand_name,
-      type,
-      purpose,
-      price,
-      markdown: price * (markdown / 100),
-      imageURL: `/assets/${file[0].name}`,
-    };
+    let form: any = document.querySelector("input[type=file]");
+    let fileList = form.files;
+    // let body = {
+    //   model_name,
+    //   brand_name,
+    //   type,
+    //   purpose,
+    //   price,
+    //   markdown: price * (markdown / 100),
+    //   imageURL: `/assets/${fileList[0].name}`,};
     try {
-      console.log(file[0]);
       const formData = new FormData();
-      formData.append("file", file[0]);
-      let res = await apiService("/api/assets", "POST", formData);
+      formData.append("file", fileList[0]);
+      console.log(formData.get("file"));
+      let res = await fetch("/api/assets", {
+        method: "POST",
+        headers: { "Content-Type": "multipart/form-data" },
+        body: formData.get("file"),
+      });
+      let msg = await res.json();
+      console.log(msg);
     } catch (err) {
       throw err;
     }
@@ -53,7 +59,11 @@ const AddInventory: React.FC<IAddInventoryProps> = () => {
       <div id="successAlert" className="alert alert-success col-md-12">
         Shoe Added!
       </div>
-      <form className="form-group col-md-10 p-3">
+      <form
+        id="form"
+        className="form-group col-md-10 p-3"
+        encType="multipart/form-data"
+      >
         <div className="mb-3">
           <label>Model Name:</label>
           <input
@@ -140,7 +150,7 @@ const AddInventory: React.FC<IAddInventoryProps> = () => {
           <div className="custom-file">
             <input
               type="file"
-              name="file"
+              name="uploadFile"
               className="custom-file-input"
               id="fileInput"
               accept="image/*"
@@ -155,12 +165,12 @@ const AddInventory: React.FC<IAddInventoryProps> = () => {
             </label>
           </div>
         </div>
-        <button
+        <input
+          type="submit"
           className="btn btn-info w-50 mx-auto d-block my-3"
           onClick={add}
-        >
-          Add
-        </button>
+          value="Add"
+        />
       </form>
     </main>
   );
