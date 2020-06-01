@@ -16,7 +16,8 @@ router.post(
         userid: req.user.id,
       });
     } catch (err) {
-      next(err);
+      console.log("Incorrect Log In");
+      res.json(false);
     }
   }
 );

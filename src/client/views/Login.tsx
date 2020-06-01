@@ -21,6 +21,9 @@ const Login: React.FC<ILoginProps> = () => {
           role: result.role,
         });
         history.push("/");
+      } else {
+        document.getElementById("failedAlert").innerHTML = "Login Information Is Incorrect";
+        document.getElementById("failedAlert").style.display = "block";
       }
     } catch (err) {
       alert("Login Information Incorrect.");
@@ -31,6 +34,7 @@ const Login: React.FC<ILoginProps> = () => {
   return (
     <main className="container my-5 d-flex flex-column justify-content-center align-items-center">
       <h1 className="text-center">Employee Portal</h1>
+      <div className="alert alert-danger hide" id="failedAlert"></div>
       <form className="border rounded p-3 col-md-6">
         <div className="form-group">
           <label>Email address</label>

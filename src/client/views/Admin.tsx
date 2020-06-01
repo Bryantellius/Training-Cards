@@ -31,10 +31,10 @@ const Template: React.FC<ITemplateProps> = () => {
   };
 
   React.useEffect(() => {
-    if (User.userid === null) {
-      history.push("/login");
-    }
-  }, [User]);
+    // if (User.userid === null) {
+    //   history.push("/login");
+    // }
+  }, []);
 
   return (
     <main className="container">
