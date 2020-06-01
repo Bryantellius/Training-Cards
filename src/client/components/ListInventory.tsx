@@ -231,7 +231,7 @@ const ListInventory: React.FC<IListInventoryProps> = () => {
               className="list-group-item d-flex justify-content-between"
               key={`${shoe?.id}-${shoe?.model_name}-${shoe?.brand_name}`}
             >
-              <span onClick={() => focusModal(shoe?)} className="feather-x">
+              <span onClick={() => focusModal(shoe)} className="feather-x">
                 {shoe?.brand_name} {shoe?.model_name}
               </span>
               <svg
