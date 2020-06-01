@@ -21,12 +21,20 @@ router.post(
       }
 
       console.log(`req.files > ${req.files}`);
+      let newImage: any = req.files.image;
 
-      res.json({ msg: "Done" });
-      // fs.writeFile(path.join(__dirname, `/public/assets/${fn}`), file, (err) => {
-      //   if (err) throw err;
-      //   console.log("File has been saved.");
-      // });
+      let buffer = new Buffer(newImage.data, "base64");
+
+      fs.writeFile(
+        path.join(__dirname, `../public/assets/${newImage.name}`),
+        buffer,
+        (err: Error) => {
+          if (err) {
+            next(err);
+          }
+          res.send({ msg: "File Uploaded" });
+        }
+      );
     } catch (err) {
       next(err);
     }

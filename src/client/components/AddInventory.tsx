@@ -14,44 +14,45 @@ const AddInventory: React.FC<IAddInventoryProps> = () => {
     e.preventDefault();
     let form: any = document.querySelector("input[type=file]");
     let fileList = form.files;
-    // let body = {
-    //   model_name,
-    //   brand_name,
-    //   type,
-    //   purpose,
-    //   price,
-    //   markdown: price * (markdown / 100),
-    //   imageURL: `/assets/${fileList[0].name}`,};
+    let body = {
+      model_name,
+      brand_name,
+      type,
+      purpose,
+      price,
+      markdown: price * (markdown / 100) || null,
+      imageURL: `/assets/${fileList[0].name}`,
+    };
     try {
       const formData = new FormData();
-      formData.append("file", fileList[0]);
-      console.log(formData.get("file"));
+      formData.append("image", fileList[0]);
       let res = await fetch("/api/assets", {
         method: "POST",
-        headers: { "Content-Type": "multipart/form-data" },
-        body: formData.get("file"),
+        headers: {
+          encoding: "binary",
+        },
+        body: formData,
       });
       let msg = await res.json();
-      console.log(msg);
     } catch (err) {
       throw err;
     }
-    // try {
-    //   let res = await apiService("/api/shoes", "POST", body);
-    //   if (res) {
-    //     document.getElementById("successAlert").style.display = "block";
-    //     setModel_name("");
-    //     setBrand_name("");
-    //     setType("");
-    //     setPurpose("");
-    //     setPrice(0);
-    //     setMarkdown(0);
-    //     document.getElementById("fileLabel").innerHTML = "Choose File";
-    //   }
-    // } catch (err) {
-    //   alert("An error occured while trying to add to inventory.");
-    //   throw err;
-    // }
+    try {
+      let res = await apiService("/api/shoes", "POST", body);
+      if (res) {
+        document.getElementById("successAlert").style.display = "block";
+        setModel_name("");
+        setBrand_name("");
+        setType("");
+        setPurpose("");
+        setPrice(0);
+        setMarkdown(0);
+        document.getElementById("fileLabel").innerHTML = "Choose File";
+      }
+    } catch (err) {
+      alert("An error occured while trying to add to inventory.");
+      throw err;
+    }
   };
 
   return (

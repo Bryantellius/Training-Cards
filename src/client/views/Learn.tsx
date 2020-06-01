@@ -64,7 +64,7 @@ const Learn: React.FC<ILearnProps> = () => {
   };
 
   const nextCard = (direction: number) => {
-    if (shoeIndex >= shoes.length - 1) {
+    if (shoeIndex >= shoes.length - 1 && direction === 1) {
       setCurrentShoe(shoes[0]);
       setShoeIndex(0);
     } else if (shoeIndex <= 0 && direction === -1) {
