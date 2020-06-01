@@ -4,7 +4,6 @@ import router from "./routes";
 import * as helmet from "helmet";
 import * as compression from "compression";
 import * as morgan from "morgan";
-import config from "./config/index";
 import { Error } from "./utils/types";
 import * as passport from "passport";
 import "./middleware/bearerstrategy";
