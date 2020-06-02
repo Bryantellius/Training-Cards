@@ -37,7 +37,10 @@ const ListInventory: React.FC<IListInventoryProps> = () => {
     setModel_name(shoe?.model_name);
     setBrand_name(shoe?.brand_name);
     setPrice(Number(shoe?.price));
-    setMarkdown(Number(shoe?.markdown));
+    setMarkdown(
+      ((Number(shoe?.price) - Number(shoe?.markdown)) / Number(shoe?.price)) *
+        100
+    );
     setType(shoe?.type);
     setPurpose(shoe?.purpose);
     setEditID(Number(shoe?.id));
@@ -55,7 +58,7 @@ const ListInventory: React.FC<IListInventoryProps> = () => {
     e.preventDefault();
     let discount: any;
     if (markdown !== 0) {
-      discount = price - (price * (markdown / 100));
+      discount = price - price * (markdown / 100);
     } else {
       discount = null;
     }
@@ -184,7 +187,9 @@ const ListInventory: React.FC<IListInventoryProps> = () => {
             </div>
             <button
               className="btn btn-info w-50 mx-auto d-block my-3"
-              onClick={(e: React.MouseEvent<HTMLButtonElement>) => update(e, editID)}
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                update(e, editID)
+              }
             >
               Edit
             </button>
