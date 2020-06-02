@@ -21,8 +21,8 @@ const AddInventory: React.FC<IAddInventoryProps> = () => {
       return;
     }
 
-    // let form: any = document.querySelector("input[type=file]");
-    // let fileList = form.files;
+    let form: any = document.querySelector("input[type=file]");
+    let fileList = form.files;
     let discount: any;
     if (markdown !== 0) {
       discount = price - price * (markdown / 100);
@@ -37,22 +37,22 @@ const AddInventory: React.FC<IAddInventoryProps> = () => {
       purpose,
       price,
       markdown: discount,
-      // imageURL: `/assets/${fileList[0].name}`,
+      imageURL: `/assets/${fileList[0].name}`,
     };
-    // try {
-    //   const formData = new FormData();
-    //   formData.append("image", fileList[0]);
-    //   let res = await fetch("/api/assets", {
-    //     method: "POST",
-    //     headers: {
-    //       encoding: "binary",
-    //     },
-    //     body: formData,
-    //   });
-    //   let msg = await res.json();
-    // } catch (err) {
-    //   throw err;
-    // }
+    try {
+      const formData = new FormData();
+      formData.append("image", fileList[0]);
+      let res = await fetch("/api/assets", {
+        method: "POST",
+        headers: {
+          encoding: "binary",
+        },
+        body: formData,
+      });
+      let msg = await res.json();
+    } catch (err) {
+      throw err;
+    }
     try {
       let res = await apiService("/api/shoes", "POST", body);
       if (res) {
