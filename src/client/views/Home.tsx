@@ -10,7 +10,11 @@ const Home: React.FC<IHomeProps> = () => {
 
   const displayMessages = async () => {
     let messages = await apiService("/api/messages");
-    setMessages(messages.splice(messages.length - 3).reverse());
+    if (messages.length < 4) {
+      setMessages(messages.reverse());
+    } else {
+      setMessages(messages.splice(messages.length - 3).reverse());
+    }
   };
 
   React.useEffect(() => {
