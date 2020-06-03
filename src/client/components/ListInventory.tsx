@@ -34,13 +34,17 @@ const ListInventory: React.FC<IListInventoryProps> = () => {
   };
 
   const focusModal = (shoe?: Shoes) => {
+    let discount =
+      ((Number(shoe?.price) - Number(shoe?.markdown)) / Number(shoe?.price)) *
+      100;
+    if (discount === 100) {
+      setMarkdown(0);
+    } else {
+      setMarkdown(discount);
+    }
     setModel_name(shoe?.model_name);
     setBrand_name(shoe?.brand_name);
     setPrice(Number(shoe?.price));
-    setMarkdown(
-      ((Number(shoe?.price) - Number(shoe?.markdown)) / Number(shoe?.price)) *
-        100
-    );
     setType(shoe?.type);
     setPurpose(shoe?.purpose);
     setEditID(Number(shoe?.id));
