@@ -12,7 +12,7 @@ const Navbar: React.FC<INavbarProps> = () => {
 
   React.useEffect(() => {
     if (User.userid === null) {
-      console.log("Welcome!")
+      console.log("Welcome!");
     }
   }, [location.pathname]);
 

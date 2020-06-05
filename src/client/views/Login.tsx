@@ -15,6 +15,7 @@ const Login: React.FC<ILoginProps> = () => {
     };
     try {
       let result = await apiService("/auth/login", "POST", body);
+      console.log(result);
       if (result) {
         setAccesstoken(result.token, {
           userid: result.userid,
@@ -23,18 +24,17 @@ const Login: React.FC<ILoginProps> = () => {
         history.push("/");
       } else {
         document.getElementById("failedAlert").innerHTML = "Login Information Is Incorrect";
-        document.getElementById("failedAlert").style.display = "block";
+        document.getElementById("failedAlert").classList.remove("hide");
       }
     } catch (err) {
-      alert("Login Information Incorrect.");
       throw e;
     }
   };
 
   return (
     <main className="container my-5 d-flex flex-column justify-content-center align-items-center">
+      <div className="alert alert-danger hide w-100" id="failedAlert"></div>
       <h1 className="text-center">Employee Portal</h1>
-      <div className="alert alert-danger hide" id="failedAlert"></div>
       <form className="border rounded p-3 col-md-6">
         <div className="form-group">
           <label>Email address</label>
